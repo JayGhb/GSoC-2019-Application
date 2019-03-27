@@ -4,4 +4,4 @@ This is a first draft application. It is intended to be shared with the OSM comm
 feedback on it so it can be improved, until April 9. <br> **Please find the application in the "application.pdf" document**. <br>
 Created with Texmaker.
 ### You are more than welcome to suggest improvments as Issues on this repository.
-It is the only repository I would be happy to see a large number of them :relieved: 
+It is the only repository I would be happy to see a large number of them :smirk: 
