@@ -1,0 +1,216 @@
+\documentclass[margin,line]{res}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{tabto}
+\usepackage{graphicx}
+\usetikzlibrary{shapes.geometric,calc}
+\oddsidemargin -.5in
+\evensidemargin -.5in
+\textwidth=6.0in
+\itemsep=0in
+\parsep=0in
+\topmargin=0in
+\topskip=0in
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{%frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  backgroundcolor=\color{lightgray}
+}
+
+\newcommand\score[2]{
+
+\pgfmathsetmacro\pgfxa{#1+1}
+
+\tikzstyle{scorestars}=[star, star points=5, star point ratio=2.25, draw, inner sep=0.15em,anchor=outer point 3]
+
+\begin{tikzpicture}[baseline]
+  \foreach \i in {1,...,#2} {
+    \pgfmathparse{(\i<=#1?"yellow!70":"lightgray")}
+    \edef\starcolor{\pgfmathresult}
+    \draw (\i*1em,0) node[name=star\i,scorestars,fill=\starcolor]  {};
+   }
+  \pgfmathparse{(#1>int(#1)?int(#1+1):0}
+  \let\partstar=\pgfmathresult
+  \ifnum\partstar>0
+    \pgfmathsetmacro\starpart{#1-(int(#1))}
+    \path [clip] ($(star\partstar.outer point 3)!(star\partstar.outer  point  2)!(star\partstar.outer point 4)$) rectangle 
+    ($(star\partstar.outer point 2 |- star\partstar.outer point   1)!\starpart!(star\partstar.outer point 1 -| star\partstar.outer point 5)$);
+    \fill (\partstar*1em,0) node[scorestars,fill=yellow!70]  {};
+  \fi,
+
+\end{tikzpicture}
+}
+ 
+\newenvironment{list1}{
+  \begin{list}{\ding{113}}{%
+      \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.17in}}}{\end{list}}
+\newenvironment{list2}{
+  \begin{list}{$\bullet$}{%
+      \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.2in}}}{\end{list}}
+
+
+    
+\begin{document}
+
+\name{
+\begin{flushleft}
+{\qquad \qquad \qquad \qquad \large Iason Manoloudis} \\
+{\LARGE 3D Traffic Sign Rendering in OSM2World}
+\end{flushleft}
+}
+
+\begin{resume}
+\section{\sc \textbf{Contact} \textbf{Information}}
+
+\vspace{.05in}
+\begin{tabular}{@{}p{3.5in}p{3in}}
+{Github:} \color{blue}{\url{https://github.com/JayGhb}}\\
+{\textbf{Mentor}:} \href{http://tobias-knerr.de/}{\color{blue}{Tobias Knerr}} \\
+{OpenStreetMap account name:} JasonManoloudis
+\end{tabular}
+
+\section{\sc \textbf{Overview}}
+
+OpenStreetMap is a data provider for various services that work with map data.
+"Taking advantage" of the exported OSM data structure, OSM2World is a converter
+that renders 3D models of the world, based on such. As the project is still under construction and some OSM tags styles are not yet supported, it is the scope of this project to expand its codebase and include various aspects of traffic sign  modules to its rendering capabilities.
+
+\section{\sc \textbf{Current state/ } \\ \textbf{Deliverables}}
+OSM2World has been a functional project for a long time and this project aims at
+expanding it. As for now, it is only possible to render traffic signs only if those have been explicitly mapped using a seperate node (not by marking their effects on a way). Moreover, a small number of signs and their textures are supported, consisting exclusively of German ones whose national IDs remain hardcoded in the TrafficSignModule.java class. Lastly, there is currently no
+rendering or texture support for other traffic modules such as traffic lights, mirrors whereas road marking can also be further enchanced. \\
+This Google Summer of Code application focuses on 6 specific tasks to be completed throughout the summer. Further information on them is given in the \textit{Timeline} section below. \\
+Those are, by name:
+\begin{itemize}
+\item Font rendering for signs with custom text
+\item Add support for common human-readable traffic sign values
+\item Create an easier way for users to import traffic sign catalogues
+\item SVG texture support
+\item Rendering of destination signs
+\item "Guessing" the location of a sing based on the road attributes
+\item (time permitting) Rendering of traffic mirrors \& lights - road marking enchancement
+\end{itemize}
+
+\section{\sc \textbf{Timeline}}
+\textbf{Note: } For the following, a rating of 5 stars implies a top-priority project and a rating of 1 star, a lowest-priority one.
+
+\textbf{April 10 - May 26} \textit{(Application Review - Community Bonding period)} \\
+\begin{itemize}
+\item[-] Implement small existing TODOs - get to know the codebase better
+\item[-] Read and experiment on Java Graphics2D, measuring text sizes in pixels, using SVGs in Java projects, JOGL and more
+\item[-] Further mapping with JOSM, familiarizing with every aspect of traffic sign, way, destination tagging
+\item[-] Reading ducomentations to speed up and ease the upcoming coding
+\end{itemize}
+As this timeframe is not part of the official GSoC coding process, it remains somewhat abstract and is not broken down any further. More investigating than the one mentioned, may take part, depending on the difficculty and importance of the various topics.
+
+\textbf{May 27 - June 10} \textit{(Font rendering for signs with custom text)} \hfill \small{\score{5}{5}}
+A possible way of implementation would begin with adding Java Font support. The Java Font class represents fonts, which are used to render text in a visible way. Following this, the implementation steps would be: 
+\begin{enumerate}
+\item Measuring text size in pixels
+\item Create a BufferedImage in the appropriate size (Graphics2D createGraphics())
+\item Draw the text (Graphics2D drawString())
+\item Save the image
+\item Support several OSM2World output formats (obj,pov,png,direct via JOGL)
+\end{enumerate}
+
+For that, existing texture classes (e.g. TextureData, JOGLTextureManager) will have to be refactored to be able to support different formats like raster, vector graphic file format, procedural textures for natural elements, and more.
+
+\textbf{June 11 - June 24} \textit{(Human-readable traffic sign values - 1st evaluation)} \hfill \small{\score{5}{5}}
+This task would include changing parts mostly of the TrafficSignModule.java class. Specifically, right now the code includes:
+\begin{lstlisting}		
+		List<TrafficSignType> types = new ArrayList<TrafficSignType>(signs.length);
+		
+		for (String sign : signs) {
+			
+		sign = sign.trim();
+		sign = sign.replace('-', '_');
+			
+		try {
+			types.add(TrafficSignType.valueOf(country + '_' + sign));
+		} catch (IllegalArgumentException e) {
+			// not a supported traffic sign type
+		}
+}
+\end{lstlisting}
+
+which matches each sign contained in "String[] signs" to one in the list (currently enum) of supported types and later creates a visual representation of them. This however assumes that all sign values begin with their country prefix (e.g. DE\_101) while this is not the case for human-readable ones. Necessities for the implementation of this task would be:
+\begin{itemize}
+\item[-] Refactoring the existing code to solve the above-mentioned problem
+\item[-] Add more human-readable sign values mentioned in the \href{https://wiki.openstreetmap.org/wiki/Key:traffic_sign#Human-readable_values}{\color{blue}{OSM Wiki}}
+\item[-] Add a configuration option for which country's style of the sign to assume, as same sings have different representations in different countries. An example of this can be found in the \textit{Warning} signs of Greece (left) and Ireland (right) \\
+\includegraphics[scale=0.65]{greece.png} \includegraphics[scale=0.03]{ireland.png}
+
+\end{itemize}
+
+\textbf{June 25 - July 9} \textit{(Traffic sign catalogues)} \hfill \small{\score{5}{5}}
+An easier - more mapper-friendly way of adding different countries' traffic signs catalogues will be implemented. This includes:
+\begin{itemize}
+\item[-] Users would be able to add signs catalogues through modifying the properties file
+\item[-] Source code must include support for reading and rendering them based on their textures
+\item[-] More catalogues are to be added by the applicant to expand the existing sign support and demonstrate the use of the new feature
+\end{itemize}
+
+\textbf{July 10 - July 22} \textit{(SVG texture support - 2nd evaluation)} \hfill \small{\score{4}{5}}
+Why adding Scalable Vector Graphics texture support would be benefitial:
+\begin{itemize}
+\item[-] SVG is just XML - smaller file sizes than those of existing png textures translate into smaller loading time
+\item[-] SVG can be created/edited with any text editor which makes it easily accessible to more mappers worldwide
+\item[-] There are available Java libraries, well documented and widely used, that make support implementation easier (Batik, SVGSalamander).
+\end{itemize}
+During the specified time period, SVG texture support will be implemented in OSM2World and SVG textures will be added to/replace some of the existing ones. After the task's completion, related Wikis and webpages will be updated with information on how users will easily be able to add more on their own.
+
+\textbf{July 23 - August 6} \textit{(Render destination signs)} \hfill \small{\score{4}{5}}
+Rendering of destination signs is considered (by the applicant) to be a task of higher difficulty so part of the time will most likely be given to investigation.
+\begin{itemize}
+\item[-] Get accustomed to existing destination tagging techniques, destination relation and more
+\item[-] Implement support for destination tags from OSM data
+\item[-] Use existing relevant work from community members as base idea for rendering implementation (e.g. OSMLaneVisualizer)
+\end{itemize}
+
+\textbf{August 7 - August 19} \textit{(Guessing positions of not explicitly defined sings - Final evaluation)} \hfill \small{\score{4}{5}}
+As mentioned in the relevant OSM Wiki: \textit{"It should however be assumed that the physical location of the sign is at the beginning and / or the end of the affected section"}. Given that, OSM2World rendered would assume, based also on the nature (effect) of the sign, that its location would be either the beggining/end of the affected section or, in case of way (road), somewhere next to the road. To make the implementation plan less abstract, time will be given to investigating "navigation", code-wise, from node to node to on a way to the point that there are no more outbound segments and the precise begging/end of the road can be specified.
+
+\textbf{August 20 - August 26} \textit{(End of the program)} \\ \\
+During the final days, community members will be invited to review and give feedback on the complete project, minor bugs will be fixed and remaining documentation/wiki updates will be written.
+
+During the whole coding process, regular Wikis and/or Medium articles are required to document the work and update the community. Those are scheduled to 2 per specified time period, as each time period consists of ~2 weeks and they are considered enough to cover each week's work without resulting in an overly extended post.
+
+\section{\sc \textbf{Time devoted/}\\ \textbf{About me}}
+I am a final year undergraduate student at the School of Informatics, Aristotle University of Thessaloniki, Greece. Having experience on various aspects of Informatics from courses, personal work and my time working abroad, I see this as a great opportunity to enchance both OSM2World and my existing skillset on technologies I have always been interested, like \href{https://github.com/JayGhb/University-Projects/tree/master/Graphics-w-OpenGL}{\color{blue}{OpenGL}} and \href{https://github.com/JayGhb?utf8=\%E2\%9C\%93&tab=repositories&q=&type=&language=java}{\color{blue}{Java}} (repo links on highlighted words). Working on developing with an open source organization is a first for me and judging from the interactions with the community so far, OpenStreetMap seems like a great place to begin this journey. \\
+Before the beginning of summer, I will be set free from my University obligations as I am expected to graduate, meaning I am more than willing to devote at least 40 hours per week on something that I finally do, not because it is obligatory.\\
+I hope I will be able to work with you all and hopefully meet the community on State of the Map 2019 as a mapper and -why not- as a fellow contributor. \\ \\
+Iason Manoloudis.
+
+
+\end{resume}
+\end{document}
+
+
+
+
